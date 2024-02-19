@@ -1,13 +1,9 @@
 import logging
-from telegram.ext import Application, MessageHandler, filters, CommandHandler, InlineQueryHandler
-from telegram import InlineQueryResultArticle, InputTextMessageContent
+from telegram.ext import Application, MessageHandler, filters, CommandHandler
 
 from db_connector import DbConnector
 
-
-
 BOT_TOKEN = "6254947443:AAFKXLTMdpMY3P7uRczslDOi_StqIbI5nIs"
-
 
 # Запускаем логгирование
 logging.basicConfig(
@@ -18,16 +14,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 connector = DbConnector("tasks.db")
-
-
-async def start(update, context):
-    """Старт."""
-    await context.bot.delete_message(chat_id=update.effective_chat.id,
-                                     message_id=update.message.message_id)
-    await update.message.reply_text(
-        "Привет! Я бот-напоминалка. Буду рад помочь тебе с делами!\n"
-        "Пропиши /help для того, чтобы узнать все актуальные команды!"
-    )
 
 
 def get_all_tasks(chat_id):
@@ -49,6 +35,15 @@ def get_all_tasks(chat_id):
             time = '(задача отменена)'
         msg += f"{num}) {task[1]} {task[0]} {time}\n"
     return msg
+
+async def start(update, context):
+    """Старт."""
+    await context.bot.delete_message(chat_id=update.effective_chat.id,
+                                     message_id=update.message.message_id)
+    await update.message.reply_text(
+        "Привет! Я бот-напоминалка. Буду рад помочь тебе с делами!\n"
+        "Пропиши /help для того, чтобы узнать все актуальные команды!"
+    )
 
 
 async def help_func(update, context):
@@ -104,6 +99,7 @@ async def clear_tasks(update, context):
 
 
 async def clear_task(update, context):
+    """Удаляет одну выбранную задачу"""
     task = " ".join(context.args)
     await context.bot.delete_message(chat_id=update.effective_chat.id,
                                      message_id=update.message.message_id)
