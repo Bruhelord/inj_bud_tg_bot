@@ -137,15 +137,8 @@ async def unknown(update, context):
 
 def main():
     """Просто main"""
-    # Создаём объект Application.
-    # Вместо слова "TOKEN" надо разместить полученный от @BotFather токен
     application = Application.builder().token(BOT_TOKEN).build()
 
-    # Создаём обработчик сообщений типа filters.TEXT
-    # из описанной выше асинхронной функции echo()
-    # После регистрации обработчика в приложении
-    # эта асинхронная функция будет вызываться при получении сообщения
-    # с типом "текст", т. е. текстовых сообщений.
     start_handler = CommandHandler('start', start)
     help_handler = CommandHandler('help', help_func)
     new_handler = CommandHandler('new', create_new_task)
@@ -156,7 +149,6 @@ def main():
     change_task_status_handler = CommandHandler('cancel', change_task_status)
     unknown_command_handler = MessageHandler(filters.TEXT, unknown)
 
-
     application.add_handler(start_handler)
     application.add_handler(help_handler)
     application.add_handler(new_handler)
@@ -166,7 +158,6 @@ def main():
     application.add_handler(change_task_status_handler)
     application.add_handler(all_handler)
     application.add_handler(unknown_command_handler)
-    # application.add_handler(message_handler)
 
     # Запускаем приложение.
     application.run_polling()
