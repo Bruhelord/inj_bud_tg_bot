@@ -60,8 +60,6 @@ class DbConnector:
         sqlite_connection.commit()
         sqlite_connection.close()
 
-
-
     def clear_tasks(self, chat_id):
         """Удаляет все задачи в бд"""
         sqlite_connection = sqlite3.connect(self.db_name)
